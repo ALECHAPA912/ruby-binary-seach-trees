@@ -61,13 +61,44 @@ class Tree
     root
   end
 
-  def find(value)
-    if @root != nil
-      return @root if @root.data == value
-      find(@root.left_node)
-      find(@root.right_node)
-    end
+  def height(value)
+    node = find(@root, value)
+    return nil unless node
+
+    node_height(node)
   end
+
+  def find(current, value)
+    return nil if current.nil?
+    return current if current.data == value
+
+    left_result = find(current.left_node, value)
+    return left_result if left_result
+
+    find(current.right_node, value)
+  end
+
+  def node_height(node)
+    return 0 if node.left_node.nil? && node.right_node.nil?
+
+    left_height = node.left_node ? node_height(node.left_node) : -1
+    right_height = node.right_node ? node_height(node.right_node) : -1
+
+    1 + [left_height, right_height].max
+  end
+
+  def depth(value)
+    node = find(value)
+    return nil unless node
+
+    node_depth(node)
+  end
+
+  def node_depth(node)
+    return 0 if node.left_node == nil && node.right_node == nil
+    
+  end
+
 
   def level_order
     return if @root == nil
