@@ -102,6 +102,7 @@ class Tree
     end
   end
 
+  #ARREGLAR
   def balanced?
     height(@root.right_node) == height(@root.left_node) || 
     height(@root.right_node) - height(@root.left_node) == 1 ||
