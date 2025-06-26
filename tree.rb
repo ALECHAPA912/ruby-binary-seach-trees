@@ -61,13 +61,6 @@ class Tree
     root
   end
 
-  def height(value)
-    node = find(@root, value)
-    return nil unless node
-
-    node_height(node)
-  end
-
   def find(current, value)
     return nil if current.nil?
     return current if current.data == value
@@ -76,6 +69,13 @@ class Tree
     return left_result if left_result
 
     find(current.right_node, value)
+  end
+
+  def height(value)
+    node = find(@root, value)
+    return nil unless node
+
+    node_height(node)
   end
 
   def node_height(node)
@@ -102,6 +102,11 @@ class Tree
     end
   end
 
+  def balanced?
+    height(@root.right_node) == height(@root.left_node) || 
+    height(@root.right_node) - height(@root.left_node) == 1 ||
+    height(@root.right_node) - height(@root.left_node) == -1
+  end
 
   def level_order
     return if @root == nil
