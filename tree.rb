@@ -87,18 +87,16 @@ class Tree
     1 + [left_height, right_height].max
   end
 
-  def depth(value)
-    node = find(value)
-    return nil unless node
-
-    node_depth(node)
+  def depth(node = @root, value, current_depth)
+    return nil if node.nil?
+    if node.data == value
+      return current_depth
+    elsif value <= node.data
+      depth(node.left_node, value, current_depth + 1)
+    else
+      depth(node.right_node, value, current_depth + 1)
+    end
   end
-
-  def node_depth(node)
-    return 0 if node.left_node == nil && node.right_node == nil
-    
-  end
-
 
   def level_order
     return if @root == nil
@@ -154,19 +152,6 @@ class Tree
     end
     result
   end
-  
- # Función para calcular la altura de un nodo
-def altura(nodo)
-  # Si el nodo es nulo, su altura es 0
-  return -1 if nodo.nil?
-
-  # Recursivamente calcular la altura de los subárboles izquierdo y derecho
-  altura_izquierda = altura(nodo.izquierda)
-  altura_derecha = altura(nodo.derecha)
-
-  # La altura del nodo es el máximo de las alturas de los subárboles + 1
-  return [altura_izquierda, altura_derecha].max + 1
-end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right_node, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_node
