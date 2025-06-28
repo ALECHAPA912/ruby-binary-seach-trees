@@ -1,5 +1,5 @@
 require './tree.rb'
 
-tree = Tree.new([39,42,30,41,38])
+tree = (Array.new(15) { rand(1..100) })
 
 tree.pretty_print

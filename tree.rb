@@ -109,6 +109,11 @@ class Tree
     balance_ok && balanced?(current.left_node) && balanced?(current.right_node)
   end
 
+  def rebalance(tree = @root)
+    tree_balanced = inorder(tree)
+    build_tree(tree_balanced)
+  end
+
   def level_order
     return if @root == nil
 
