@@ -17,14 +17,14 @@ class Tree
     root
   end
 
-  def insert(root, data)
-    return new.Node(data) if root == nil
+  def insert(data, root = @root)
+    return Node.new(data) if root == nil
     return root if root.data == data
 
     if data < root.data
-      root.set_left(insert(root.left_node, data))
-    elsif key > root.data
-      root.set_right(insert(root.right_node, data))
+      root.set_left(insert(data, root.left_node))
+    elsif data > root.data
+      root.set_right(insert(data, root.right_node))
     end
 
     return root
@@ -79,7 +79,7 @@ class Tree
   end
 
   def node_height(node)
-    return 0 if node.left_node.nil? && node.right_node.nil?
+    return 0 if node.nil? || (node.left_node.nil? && node.right_node.nil?)  
 
     left_height = node.left_node ? node_height(node.left_node) : -1
     right_height = node.right_node ? node_height(node.right_node) : -1
@@ -101,17 +101,17 @@ class Tree
   def balanced?(current = @root)
     return true if current.nil?
 
-    left_height = height(current.left_node)
-    right_height = height(current.right_node)
+    left_height = node_height(current.left_node)
+    right_height = node_height(current.right_node)
 
     balance_ok = (left_height - right_height).abs <= 1
 
     balance_ok && balanced?(current.left_node) && balanced?(current.right_node)
   end
 
-  def rebalance(tree = @root)
-    tree_balanced = inorder(tree)
-    build_tree(tree_balanced)
+  def rebalance
+    tree_balanced = inorder(@root)
+    @root = build_tree(tree_balanced, 0, tree_balanced.length-1)
   end
 
   def level_order

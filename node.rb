@@ -21,6 +21,6 @@ class Node
   end
   
   def to_s
-    "Value: #{@data}, Left Node: #{@left_node}, Right Node: #{@right_node}"
+    "Value: #{@data}"
   end
 end
