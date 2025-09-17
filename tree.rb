@@ -24,13 +24,26 @@ class Tree
     pretty_print(node.left_node, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_node
   end
 
-
-  #arr = [1,2]
-  #build_tree([1,2], 0, 1)
-  #mid = 0; root = 1;
-  #root.set_left = build_tree([0..-1], 0, -1)
-  #return nil
-  #root.set_right = build_tree([1..1], 1, 1)
-  #mid = 1; root = 2
-  #root.set_left = build_tree()
+  def insert(value)
+    current_node = @root
+    new_node = Node.new(value)
+    while current_node 
+      if current_node.value < value
+        if current_node.right_node == nil
+          current_node.right_node = new_node
+          break
+        end
+        current_node = current_node.right_node
+      elsif current_node.value > value
+        if current_node.value > value
+          current_node.left_node = new_node
+          break
+        end
+        current_node = current_node.left_node
+      else
+        raise "El valor que quieres agregar ya se encuentra en el arbol"
+      end
+    end
+    puts "Nodo #{new_node.value} agregado!"
+  end
 end
