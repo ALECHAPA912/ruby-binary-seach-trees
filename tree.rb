@@ -50,53 +50,77 @@ class Tree
   def delete(value)
     current_node = @root
     last_node = nil
-    while current_node
+    while current_node && current_node.value != value
       if current_node.value < value
         last_node = current_node
         current_node = current_node.left_node
       elsif current_node.value > value
         last_node = current_node
         current_node = current_node.right_node
-      else
-        #si el nodo a borrar no tiene hijos
-        if current_node.left_node.nil? && current_node.right_node.nil? && current_node.value < last_node.value
-          last_node.left_node == nil
-        else
-          last_node.right_node == nil
-        end
-        #si el nodo a borrar tiene dos hijos
-        if current_node.left_node && current_node.right_node
-          right_next = current_node.right_node
-          while right_next
-            #FALTA BORRAR EL RIGHT NEXT PARA DESPUES REUBICARLO
-            if right_next.left_node.nil?
-              #si el nodo a borrar es raiz
-              if !last_node
-                @root = right_next
-                @root.left_node = current_node.left_node
-                @root.right_node = current_node.right_node
-              #si no es nodo raiz
-              else
-
-              end
-            end
-            right_next = right_next.left_node
-          end
-
-        end
-        #si el nodo a borrar tiene solo hijo izquierdo
-        if current_node.left_node && current_node.left_node.value < last_node.value
-          last_node.left_node = current_node.left_node
-        else
-          last_node.right_node = current_node.left_node
-        end
-        #si el nodo a borrar tiene solo hijo derecho
-        if current_node.right_node && current_node.right_node.value < last_node.value
-          last_node.left_node = current_node.right_node
-        else
-          last_node.right_node = current_node.right_node
-        end
       end
     end
+    return puts "El valor que desea borrar no se encuentra en el arbol" if current_node.nil?
+
+    if current_node.left_node && current_node.right_node #si el nodo a borrar tiene dos hijos
+      right_next = current_node.right_node #right_next es el nodo mayor siguiente al nodo actual
+      while right_next
+        if right_next.left_node.nil? 
+          right_next.left_node = current_node.left_node
+          right_next.right_node = current_node.right_node
+          if !last_node #si el nodo a borrar es raiz
+            @root = right_next
+          else #si no es nodo raiz
+            if current_node.value < last_node.value
+              last_node.left_node = right_next
+            else
+              last_node.right_node = right_next
+            end
+          end
+        end
+        right_next = right_next.left_node
+      end
+    end
+
+    if current_node.right_node.nil? && current_node.left_node && current_node.left_node.value < last_node.value #si el nodo a borrar tiene solo hijo izquierdo
+      last_node.left_node = current_node.left_node
+    else
+      last_node.right_node = current_node.left_node
+    end
+
+    if current_node.left_node.nil? && current_node.right_node && current_node.right_node.value < last_node.value #si el nodo a borrar tiene solo hijo derecho
+      last_node.left_node = current_node.right_node
+    else
+      last_node.right_node = current_node.right_node
+    end 
+
+    if current_node.left_node.nil? && current_node.right_node.nil? && current_node.value < last_node.value #si el nodo a borrar no tiene hijos
+      last_node.left_node == nil
+    else
+      last_node.right_node == nil
+    end
+
+    puts "Nodo #{current_node.value} eliminado!"
+    current_node
+  end
+
+  def find(value)
+    current_node = @root
+    while current_node 
+      return current_node if current_node.value == value
+      if current_node.value < value
+        current_node = current_node.right_node
+      else
+        current_node = current_node.left_node
+      end
+    end
+    nil
+  end
+
+  def level_order
+  end
+  
+  def level_order_recursive(root = @root, q)
+    return nil if root.nil?
+    
   end
 end
