@@ -46,4 +46,57 @@ class Tree
     end
     puts "Nodo #{new_node.value} agregado!"
   end
+
+  def delete(value)
+    current_node = @root
+    last_node = nil
+    while current_node
+      if current_node.value < value
+        last_node = current_node
+        current_node = current_node.left_node
+      elsif current_node.value > value
+        last_node = current_node
+        current_node = current_node.right_node
+      else
+        #si el nodo a borrar no tiene hijos
+        if current_node.left_node.nil? && current_node.right_node.nil? && current_node.value < last_node.value
+          last_node.left_node == nil
+        else
+          last_node.right_node == nil
+        end
+        #si el nodo a borrar tiene dos hijos
+        if current_node.left_node && current_node.right_node
+          right_next = current_node.right_node
+          while right_next
+            #FALTA BORRAR EL RIGHT NEXT PARA DESPUES REUBICARLO
+            if right_next.left_node.nil?
+              #si el nodo a borrar es raiz
+              if !last_node
+                @root = right_next
+                @root.left_node = current_node.left_node
+                @root.right_node = current_node.right_node
+              #si no es nodo raiz
+              else
+
+              end
+            end
+            right_next = right_next.left_node
+          end
+
+        end
+        #si el nodo a borrar tiene solo hijo izquierdo
+        if current_node.left_node && current_node.left_node.value < last_node.value
+          last_node.left_node = current_node.left_node
+        else
+          last_node.right_node = current_node.left_node
+        end
+        #si el nodo a borrar tiene solo hijo derecho
+        if current_node.right_node && current_node.right_node.value < last_node.value
+          last_node.left_node = current_node.right_node
+        else
+          last_node.right_node = current_node.right_node
+        end
+      end
+    end
+  end
 end
