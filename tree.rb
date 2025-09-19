@@ -119,8 +119,14 @@ class Tree
   def level_order
   end
   
-  def level_order_recursive(root = @root, q)
-    return nil if root.nil?
-    
+  def level_order_recursive(node = @root)
+    return [] if @root.nil?
+    q = []
+    if node.left_node
+      
+    end
+    if node.right_node
+     
+    end
   end
 end
