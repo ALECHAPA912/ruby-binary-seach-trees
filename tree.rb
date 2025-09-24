@@ -183,4 +183,27 @@ class Tree
     yield root if block_given?
     result << root.value
   end
+
+  def height(value, node = find(value), current_node = node, total = 0)
+    return nil if node.nil?
+    return total-1 if current_node.nil?
+    left_sub = height(value,node, current_node.left_node, total+1) 
+    right_sub = height(value, node, current_node.right_node, total+1)
+    [left_sub, right_sub].max   
+  end
+
+  def depth(value)
+    current_node = @root
+    result = 0
+    while current_node
+      return result if current_node.value == value
+      if current_node.value < value
+        current_node = current_node.right_node
+      else
+        current_node = current_node.left_node
+      end
+      result += 1
+    end
+    nil
+  end
 end
