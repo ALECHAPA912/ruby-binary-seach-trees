@@ -72,7 +72,7 @@ class Tree
       end
     end
 
-    if current_node.right_node.nil? && current_node.left_node #si tiene solo hijo izquierdo
+    if current_node.right_node.nil? && current_node.left_node #si tiene solo hijo 
       if current_node == @root # si es nodo raiz
         @root = current_node.left_node
       elsif current_node.left_node < last_node
@@ -80,7 +80,6 @@ class Tree
       else
         last_node.set_right(current_node.left_node)
       end
-      
     end
 
     if current_node.left_node.nil? && current_node.right_node #si tiene solo hijo derecho
@@ -151,8 +150,13 @@ class Tree
     end
   end
   
-  def level_order_recursive
-    return [] if @root.nil?
-    
+  def level_order_recursive(queue = [@root], result = [], &block)
+    return result if queue.empty?
+    current_node = queue.shift
+    result << current_node.value
+    yield current_node if block_given?
+    queue << current_node.left_node if current_node.left_node
+    queue << current_node.right_node if current_node.right_node
+    level_order_recursive(queue, result, &block)
   end
 end
