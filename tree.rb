@@ -100,12 +100,12 @@ class Tree
         last_right_next = right_next
         right_next = right_next.left_node
       end
-      if current_node == @root # si es raiz
-        @root.set_value(right_next.value)
+      if current_node == @root # si es raiz 
+        @root.set_value(right_next.value) #cambiamos solo el valor del nodo al mayor siguiente para no migrar todos los subarboles
         if last_right_next
-          last_right_next.set_left(right_next.right_node) 
+          last_right_next.set_left(right_next.right_node)  
         else
-          right_next.set_left(nil)
+          @root.set_right(right_next.right_node)
         end
       else # si NO es raiz
         right_next.set_left(current_node.left_node)
