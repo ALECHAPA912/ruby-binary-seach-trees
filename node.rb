@@ -23,4 +23,8 @@ class Node
   def <=>(other)
     @value <=> other.value
   end
+
+  def to_s
+    "#{@value}"
+  end
 end

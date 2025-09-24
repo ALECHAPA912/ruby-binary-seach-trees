@@ -138,26 +138,21 @@ class Tree
     return [] if @root.nil?
     queue = [@root]
     result = []
-    while !q.empty?
-      current_node = q.shift
+    while !queue.empty?
+      current_node = queue.shift
       queue << current_node.left_node if current_node.left_node
       queue << current_node.right_node if current_node.right_node
       result << current_node.value
     end
     if block_given?
-      result.each {|node| yield node.value}
+      result.each {|node| yield node}
     else
       result
     end
   end
   
-  def level_order_recursive(queue = [@root])
+  def level_order_recursive
     return [] if @root.nil?
-    current_node = queue.shift
-    result = []
-    result << current_node.left_node if current_node.left_node
-    result << current_node.right_node if current_node.right_node
-    level_order_recursive(queue)
-    result
+    
   end
 end
