@@ -159,4 +159,28 @@ class Tree
     queue << current_node.right_node if current_node.right_node
     level_order_recursive(queue, result, &block)
   end
+
+  def inorder(root = @root, result = [], &block)
+    return result if root.nil?
+    inorder(root.left_node, result, &block)
+    yield root if block_given?
+    result << root.value
+    inorder(root.right_node, result, &block)
+  end
+
+  def preorder(root = @root, result = [], &block)
+    return result if root.nil?
+    yield root if block_given?
+    result << root.value
+    preorder(root.left_node, result, &block)
+    preorder(root.right_node, result, &block)
+  end
+
+  def postorder(root = @root, result = [], &block)
+    return result if root.nil?
+    postorder(root.left_node, result, &block)
+    postorder(root.right_node, result, &block)
+    yield root if block_given?
+    result << root.value
+  end
 end
