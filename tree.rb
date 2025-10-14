@@ -141,7 +141,7 @@ class Tree
       current_node = queue.shift
       queue << current_node.left_node if current_node.left_node
       queue << current_node.right_node if current_node.right_node
-      result << current_node.value
+      result << current_node
     end
     if block_given?
       result.each {|node| yield node}
@@ -184,14 +184,23 @@ class Tree
     result << root.value
   end
 
-  def height(value, node = find(value), current_node = node, total = 0)
-    return nil if node.nil?
-    return total-1 if current_node.nil?
-    left_sub = height(value,node, current_node.left_node, total+1) 
-    right_sub = height(value, node, current_node.right_node, total+1)
-    [left_sub, right_sub].max   
+  def height(value)
+    return nil if value.nil?
+    node = find(value)
+    if node
+      node_height(node) - 1
+    else 
+      nil
+    end
   end
 
+  def node_height(current_node, total = 0)
+    return total if current_node.nil?
+    left_tree = node_height(current_node.left_node, total + 1)
+    right_tree = node_height(current_node.right_node, total + 1)
+    [left_tree, right_tree].max
+  end
+  
   def depth(value)
     current_node = @root
     result = 0
@@ -205,5 +214,35 @@ class Tree
       result += 1
     end
     nil
+  end
+  
+  def balanced?(current_node = @root)
+    return true if current_node.nil?
+    if current_node.left_node
+      left_tree = height(current_node.left_node.value)
+    else
+      left_tree = 0
+    end
+    if current_node.right_node
+      right_tree = height(current_node.right_node.value)
+    else
+      right_tree = 0
+    end
+    if are_balanced?(left_tree, right_tree)
+      return balanced?(current_node.left_node) && balanced?(current_node.right_node)
+    else
+      return false
+    end
+  end
+  
+  def are_balanced?(left, right)
+    (left - right).abs < 2
+  end
+
+  def rebalance
+    aux = []
+    inorder { |node| aux << node.value } 
+    @root = build_tree(aux, 0, aux.length - 1)
+    puts "TREE REBALANCED!"
   end
 end
